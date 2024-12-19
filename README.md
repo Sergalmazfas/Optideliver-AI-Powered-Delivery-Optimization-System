@@ -104,7 +104,7 @@ Located in [`Route-optimization-dashboard/route/project`](Route-optimization-das
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/india-post-delivery-system.git
+git clone https://github.com/rishitsura/india-post-delivery-system.git
 ```
 
 ## Installing Dependencies
