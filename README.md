@@ -156,6 +156,6 @@ We welcome contributions to improve the India Post Delivery System! Please follo
 
 ### [Shruthika Sunku](https://github.com/shruthika-s)
 ### [Suhas Uppala](https://github.com/Suhas-Uppala)
-### [NSV Sujay](https://github.com/sujaynsv)
+### [Sujay Nimmagadda](https://github.com/sujaynsv)
 ### [Yaswanth Jonnala](https://github.com/yaswanthjonnala)
 ### [Amit Dandu](https://github.com/amitexe2)
