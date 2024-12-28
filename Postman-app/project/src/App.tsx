@@ -10,7 +10,7 @@ import { calculateDeliveryMetrics } from './utils/metrics';
 const mockDeliveries: Delivery[] = [
   {
     id: '1',
-    recipientName: 'John Smith',
+    recipientName: 'john Smith',
     recipientPhone: '+91 9876543210',
     address: 'Hitech City, Hyderabad',
     timeSlot: '10:00 AM - 12:00 PM',
