@@ -152,7 +152,7 @@ We welcome contributions to improve the India Post Delivery System! Please follo
 - Add tests for new features
 - Ensure all tests pass before submitting PR
 
-### Contributors
+### Co-Owners
 
 ### [Shruthika Sunku](https://github.com/shruthika-s)
 ### [Suhas Uppala](https://github.com/Suhas-Uppala)
