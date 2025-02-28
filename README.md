@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The **OptiDeliver** is a comprehensive solution designed to optimize delivery routes, track deliveries, and provide an interface for senders to manage their shipments. The system consists of three main components:
+The **OptiDeliver** is a comprehensive solution designed to optimize the delivery routes, track deliveries, and provide an interface for senders to manage their shipments. The system consists of three main components:
 
 - **Sender Interface**: A web application for senders to create and manage delivery orders.
 - **Postman App**: An application for delivery personnel to view and update delivery statuses.
