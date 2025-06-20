@@ -158,4 +158,4 @@ We welcome contributions to improve the India Post Delivery System! Please follo
 ### [Suhas Uppala](https://github.com/Suhas-Uppala)
 ### [Sujay Nimmagadda](https://github.com/sujaynsv)
 ### [Yaswanth Jonnala](https://github.com/yaswanthjonnala)
-### [Amit Dandu](https://github.com/amitexe2)
+### [Amit Dandu](https://github.com/amitexe)
