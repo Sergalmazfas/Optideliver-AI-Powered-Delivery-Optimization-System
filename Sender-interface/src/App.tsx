@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Login } from './pages/Login';
-import { Dashboard } from './pages/Dashboard';
+import { DashboardPage as Dashboard } from './pages/Dashboard';
 import { Toaster } from 'react-hot-toast';
 
 function App() {
