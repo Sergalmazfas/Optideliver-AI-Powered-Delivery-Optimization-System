@@ -84,8 +84,5 @@ images:
   - 'gcr.io/$PROJECT_ID/postman-app:$COMMIT_SHA'
   - 'gcr.io/$PROJECT_ID/dashboard:$COMMIT_SHA'
 
-timeout: 1200s
-
-options:
-  logging: CLOUD_LOGGING_ONLY
-  machineType: 'N1_HIGHCPU_8' 
+logsBucket: 'gs://notion-budget-planner-build-logs'
+timeout: 1200s 
