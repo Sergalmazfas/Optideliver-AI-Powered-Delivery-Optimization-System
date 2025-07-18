@@ -192,7 +192,7 @@ Each component can be run locally for development. Ensure you have a `.env` file
 
 Follow similar `npm run dev` commands for the other two frontend applications.
 
-## Docker
+## Deployment
 
 ### Local Development using Docker Compose
 
@@ -212,36 +212,45 @@ The services will be available at:
 -   **Postman App**: `http://localhost:3001`
 -   **Dashboard**: `http://localhost:3002`
 
-### Deployment to Google Cloud Run
+### Automated Deployment to Google Cloud Run with Cloud Build
 
-Each service can be deployed as a separate service in Google Cloud Run.
+This project is configured for automated deployments to Google Cloud Run using a `cloudbuild.yaml` file. This setup will automatically build and deploy the services when changes are pushed to the `main` branch.
 
-1.  **Authenticate with Google Cloud:**
-    ```sh
-    gcloud auth login
-    gcloud config set project YOUR_PROJECT_ID
-    ```
-2.  **Enable necessary APIs:**
-    - Cloud Build API
-    - Cloud Run API
-    - Artifact Registry API
+**Prerequisites:**
+- A Google Cloud Platform (GCP) project with billing enabled.
+- The `gcloud` CLI installed and authenticated.
+- A GitHub repository for your project.
+- The following APIs enabled in your GCP project: Cloud Build, Cloud Run, Artifact Registry, and Secret Manager.
 
-3.  **Build and Push the Docker image (example for Sender Interface):**
-    ```sh
-    gcloud builds submit --tag gcr.io/YOUR_PROJECT_ID/sender-interface ./Sender-interface
-    ```
-    Repeat this for the `postman-app` and `route-optimization-dashboard` directories.
+**Setup Steps:**
 
-4.  **Deploy the service (example for Sender Interface):**
-    ```sh
-    gcloud run deploy sender-interface \
-      --image gcr.io/YOUR_PROJECT_ID/sender-interface \
-      --platform managed \
-      --region us-central1 \
-      --allow-unauthenticated \
-      --set-env-vars VITE_GOOGLE_MAPS_API_KEY=your_google_maps_api_key,MONGODB_URI=your_mongo_uri
-    ```
-    Repeat this for the other services, adjusting the service name and environment variables as needed.
+1.  **Connect your GitHub Repository to Cloud Build:**
+    - Go to the Cloud Build Triggers page in the GCP Console.
+    - Click "Create trigger".
+    - Select GitHub as your source.
+    - Authenticate and select your repository.
+    - For the trigger settings:
+        - **Name:** A descriptive name (e.g., "deploy-main").
+        - **Event:** Push to a branch.
+        - **Branch:** `main`.
+        - **Configuration:** Cloud Build configuration file (`cloudbuild.yaml`).
+        - **Location:** `cloudbuild.yaml` (at the root of the repository).
+
+2.  **Create Secrets in Secret Manager:**
+    Before deploying, you must create secrets in Secret Manager for your sensitive data. The names of the secrets should match the names used in the `cloudbuild.yaml` file.
+    - `MONGODB_URI`
+    - `VITE_GOOGLE_MAPS_API_KEY`
+    - `TWILIO_ACCOUNT_SID`
+    - `TWILIO_AUTH_TOKEN`
+    - `TWILIO_PHONE_NUMBER`
+
+3.  **Grant Permissions:**
+    The Cloud Build service account will need permissions to deploy to Cloud Run and access secrets. Grant the following roles to your Cloud Build service account (`your-project-number@cloudbuild.gserviceaccount.com`):
+    - `Cloud Run Admin`
+    - `Secret Manager Secret Accessor`
+
+4.  **Push to `main`:**
+    Once the trigger is set up, any push to the `main` branch will automatically trigger a new build and deployment for all three services.
 
 ## Configuration
 

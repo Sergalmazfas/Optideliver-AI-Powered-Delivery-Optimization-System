@@ -1,0 +1,86 @@
+steps:
+  # 1. Build and Deploy Sender-interface
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'build-sender-interface'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/sender-interface:$COMMIT_SHA'
+      - '.'
+    dir: 'Sender-interface'
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'push-sender-interface'
+    args: ['push', 'gcr.io/$PROJECT_ID/sender-interface:$COMMIT_SHA']
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    id: 'deploy-sender-interface'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'sender-interface' # The name of your Cloud Run service
+      - '--image=gcr.io/$PROJECT_ID/sender-interface:$COMMIT_SHA'
+      - '--region=us-east1'
+      - '--platform=managed'
+      - '--allow-unauthenticated'
+      # Pass secrets to the service. Make sure these secrets exist in Secret Manager.
+      - '--set-secrets=MONGODB_URI=MONGODB_URI:latest,VITE_GOOGLE_MAPS_API_KEY=VITE_GOOGLE_MAPS_API_KEY:latest'
+
+  # 2. Build and Deploy Postman-app
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'build-postman-app'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/postman-app:$COMMIT_SHA'
+      - '.'
+    dir: 'Postman-app/project'
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'push-postman-app'
+    args: ['push', 'gcr.io/$PROJECT_ID/postman-app:$COMMIT_SHA']
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    id: 'deploy-postman-app'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'postman-app' # The name of your Cloud Run service
+      - '--image=gcr.io/$PROJECT_ID/postman-app:$COMMIT_SHA'
+      - '--region=us-east1'
+      - '--platform=managed'
+      - '--allow-unauthenticated'
+
+  # 3. Build and Deploy Route-optimization-dashboard
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'build-dashboard'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/dashboard:$COMMIT_SHA'
+      - '.'
+    dir: 'Route-optimization-dashboard/route/project'
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'push-dashboard'
+    args: ['push', 'gcr.io/$PROJECT_ID/dashboard:$COMMIT_SHA']
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    id: 'deploy-dashboard'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'dashboard' # The name of your Cloud Run service
+      - '--image=gcr.io/$PROJECT_ID/dashboard:$COMMIT_SHA'
+      - '--region=us-east1'
+      - '--platform=managed'
+      - '--allow-unauthenticated'
+      - '--set-secrets=VITE_GOOGLE_MAPS_API_KEY=VITE_GOOGLE_MAPS_API_KEY:latest'
+
+# This section tells Cloud Build to cache directories to speed up subsequent builds.
+options:
+  machineType: 'N1_HIGHCPU_8'
+timeout: '1200s' # 20 minutes 
