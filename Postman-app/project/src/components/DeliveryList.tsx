@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, MapPin, AlertCircle, CheckCircle, Clock } from 'lucide-react';
+import { Phone, MapPin, AlertCircle, CheckCircle, Clock, Truck } from 'lucide-react';
 import { Delivery } from '../types';
 
 interface DeliveryListProps {
@@ -53,6 +53,12 @@ export function DeliveryList({ deliveries, onStatusUpdate }: DeliveryListProps) 
               <div className="flex items-center gap-2 text-amber-600">
                 <AlertCircle size={16} />
                 <span>{delivery.specialInstructions}</span>
+              </div>
+            )}
+            {delivery.specialNeeds && (
+              <div className="flex items-center gap-2 text-red-600">
+                <Truck size={16} />
+                <span>Special Need: {delivery.specialNeeds}</span>
               </div>
             )}
           </div>

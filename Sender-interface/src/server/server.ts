@@ -44,7 +44,7 @@ app.post('/api/orders/:id/confirm-slot', async (req, res) => {
 
     // Send SMS notification
     await twilioClient.messages.create({
-      body: `Your delivery for order ${order.trackingId} has been scheduled for ${timeSlot}. Thank you for using India Post!`,
+      body: `Your delivery for order ${order.trackingId} has been scheduled for ${timeSlot}. Thank you for using OptiDeliver!`,
       from: process.env.TWILIO_PHONE_NUMBER,
       to: order.receiverDetails.phone
     });

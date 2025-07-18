@@ -1,20 +1,21 @@
 import React, { useState } from "react";
 import { OrderList } from "../components/OrderList";
 import { TimeSlotSelector } from "../components/TimeSlotSelector";
+import { CreateOrderModal } from "../components/CreateOrderModal";
 import { Order } from "../types";
-import { Calendar, LogOut } from "lucide-react";
+import { Calendar, LogOut, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const mockOrders: Order[] = [
   {
     _id: "1",
-    trackingId: "IP123456789",
+    trackingId: "US123456789",
     senderId: "sender1",
     receiverDetails: {
-      name: "Suhas",
-      address: "123 Main St, Mumbai",
-      phone: "+91 9876543210",
+      name: "John Doe",
+      address: "123 Main St, Miami, FL",
+      phone: "+1 305-555-0100",
       email: "john@example.com",
     },
     deliveryDate: "2024-03-20",
@@ -24,12 +25,12 @@ const mockOrders: Order[] = [
   },
   {
     _id: "2",
-    trackingId: "IP987654321",
+    trackingId: "US987654321",
     senderId: "sender2",
     receiverDetails: {
       name: "Jane Smith",
-      address: "456 Elm St, Delhi",
-      phone: "+91 9123456789",
+      address: "456 Elm St, Miami, FL",
+      phone: "+1 786-555-0101",
       email: "jane@example.com",
     },
     deliveryDate: "2024-03-21",
@@ -39,12 +40,12 @@ const mockOrders: Order[] = [
   },
   {
     _id: "3",
-    trackingId: "IP112233445",
+    trackingId: "US112233445",
     senderId: "sender3",
     receiverDetails: {
       name: "Alice Johnson",
-      address: "789 Oak St, Bangalore",
-      phone: "+91 9988776655",
+      address: "789 Oak St, Miami Beach, FL",
+      phone: "+1 305-555-0102",
       email: "alice@example.com",
     },
     deliveryDate: "2024-03-22",
@@ -54,12 +55,12 @@ const mockOrders: Order[] = [
   },
   {
     _id: "4",
-    trackingId: "IP556677889",
+    trackingId: "US556677889",
     senderId: "sender4",
     receiverDetails: {
       name: "Bob Brown",
-      address: "101 Pine St, Chennai",
-      phone: "+91 9876543211",
+      address: "101 Pine St, Coral Gables, FL",
+      phone: "+1 305-555-0103",
       email: "bob@example.com",
     },
     deliveryDate: "2024-03-23",
@@ -69,12 +70,12 @@ const mockOrders: Order[] = [
   },
   {
     _id: "5",
-    trackingId: "IP998877665",
+    trackingId: "US998877665",
     senderId: "sender5",
     receiverDetails: {
       name: "Charlie Davis",
-      address: "202 Maple St, Hyderabad",
-      phone: "+91 9123456788",
+      address: "202 Maple St, Key Biscayne, FL",
+      phone: "+1 786-555-0104",
       email: "charlie@example.com",
     },
     deliveryDate: "2024-03-24",
@@ -84,13 +85,13 @@ const mockOrders: Order[] = [
   },
   {
     _id: "6",
-    trackingId: "IP334455667",
+    trackingId: "US334455667",
     senderId: "sender6",
     receiverDetails: {
       name: "Diana Evans",
-      address: "303 Birch St, Pune",
-      phone: "+91 9988776644",
-      email: "anjali@example.com",
+      address: "303 Birch St, Aventura, FL",
+      phone: "+1 305-555-0105",
+      email: "diana@example.com",
     },
     deliveryDate: "2024-03-25",
     selectedTimeSlot: null,
@@ -99,13 +100,13 @@ const mockOrders: Order[] = [
   },
   {
     _id: "7",
-    trackingId: "IP776655443",
+    trackingId: "US776655443",
     senderId: "sender7",
     receiverDetails: {
-      name: "Sanjay Banerjee",
-      address: "15/4, Ballygunge Place, Near South City Mall, Kolkata - 700019",
-      phone: "+91 9876543212",
-      email: "sanjay@example.com",
+      name: "Frank Green",
+      address: "404 Cedar St, Miami Gardens, FL",
+      phone: "+1 786-555-0106",
+      email: "frank@example.com",
     },
     deliveryDate: "2024-03-26",
     selectedTimeSlot: null,
@@ -114,13 +115,13 @@ const mockOrders: Order[] = [
   },
   {
     _id: "8",
-    trackingId: "IP223344556",
+    trackingId: "US223344556",
     senderId: "sender8",
     receiverDetails: {
-      name: "Kavita Mehta",
-      address: "203, Rajvilas Palace",
-      phone: "+91 9123456787",
-      email: "kavita@example.com",
+      name: "Grace Hall",
+      address: "505 Spruce St, Doral, FL",
+      phone: "+1 305-555-0107",
+      email: "grace@example.com",
     },
     deliveryDate: "2024-03-27",
     selectedTimeSlot: null,
@@ -138,123 +139,101 @@ const initialTimeSlots = [
   { time: "16:00 - 17:00", available: 10 },
 ];
 
-export const Dashboard: React.FC = () => {
+export const DashboardPage: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>(mockOrders);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
-  const [timeSlots, setTimeSlots] = useState(initialTimeSlots);
-  const [showChangedOrders, setShowChangedOrders] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    navigate("/");
+  const handleSelectOrder = (order: Order) => {
+    setSelectedOrder(order);
   };
 
-  const handleSelectTimeSlot = (slot: string) => {
+  const handleTimeSlotSelected = (timeSlot: string) => {
     if (selectedOrder) {
-      const updatedOrders = orders.map((order) =>
-        order._id === selectedOrder._id
-          ? { ...order, selectedTimeSlot: slot, status: "scheduled" }
-          : order
+      const updatedOrders = orders.map((o) =>
+        o._id === selectedOrder._id
+          ? { ...o, selectedTimeSlot: timeSlot, status: "scheduled" }
+          : o
       );
       setOrders(updatedOrders);
-
-      const updatedTimeSlots = timeSlots.map((timeSlot) =>
-        timeSlot.time === slot
-          ? { ...timeSlot, available: timeSlot.available - 1 }
-          : timeSlot
-      );
-      setTimeSlots(updatedTimeSlots);
-
-      toast.success("Delivery time slot scheduled successfully!");
       setSelectedOrder(null);
+      toast.success(
+        `Time slot ${timeSlot} confirmed for order ${selectedOrder.trackingId}`
+      );
     }
   };
 
-  const handleShowChangedOrders = () => {
-    setShowChangedOrders(true);
+  const handleLogout = () => {
+    toast.success("Logged out successfully");
+    navigate("/login");
   };
 
-  const handleShowYourOrders = () => {
-    setShowChangedOrders(false);
+  const handleCreateOrder = (newOrderData: Omit<Order, '_id' | 'createdAt' | 'status'>) => {
+    const newOrder: Order = {
+      ...newOrderData,
+      _id: (orders.length + 1).toString(),
+      createdAt: new Date().toISOString(),
+      status: 'pending',
+    };
+    setOrders(prev => [...prev, newOrder]);
+    setIsModalOpen(false);
+    toast.success(`Order ${newOrder.trackingId} created successfully!`);
   };
-
-  const filteredOrders = showChangedOrders
-    ? orders.filter(
-        (order) =>
-          order.status === "scheduled" && order.selectedTimeSlot !== null
-      )
-    : orders;
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <nav className="bg-gradient-to-r from-[#E52D27] to-[#FF6B35] shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16 items-center">
-            <div className="flex items-center">
-              <Calendar className="text-white" size={24} />
-              <h1 className="ml-2 text-xl font-semibold text-white">
-                India Post Delivery System
-              </h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              <button
-                onClick={handleLogout}
-                className="flex items-center text-white hover:text-gray-200 transition-colors"
-              >
-                <LogOut size={20} className="mr-1" />
-                Logout
-              </button>
-              <img
-                src="./india post logo.png"
-                alt="India Post Logo"
-                className="h-12 w-auto object-contain"
-              />
-            </div>
+      <header className="bg-white shadow-sm">
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-gray-800">
+            Delivery Dashboard
+          </h1>
+          <div className="flex items-center space-x-4">
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="flex items-center text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-md"
+            >
+              <Plus className="w-5 h-5 mr-1" />
+              Create Order
+            </button>
+            <button
+              onClick={() => navigate("/schedule")}
+              className="flex items-center text-gray-600 hover:text-indigo-600"
+            >
+              <Calendar className="w-5 h-5 mr-1" />
+              View Schedule
+            </button>
+            <button
+              onClick={handleLogout}
+              className="flex items-center text-gray-600 hover:text-red-600"
+            >
+              <LogOut className="w-5 h-5 mr-1" />
+              Logout
+            </button>
           </div>
         </div>
-      </nav>
-
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="px-4 py-6 sm:px-0">
-          <div className="dashboard-buttons flex space-x-4 bg-blue-100 p-4 rounded-md mb-6">
-            <button
-              onClick={handleShowYourOrders}
-              className="bg-white text-blue-600 px-4 py-2 rounded shadow hover:bg-blue-50 transition"
-            >
-              Your Orders
-            </button>
-            <button
-              onClick={handleShowChangedOrders}
-              className="bg-white text-blue-600 px-4 py-2 rounded shadow hover:bg-blue-50 transition"
-            >
-              Scheduled Orders
-            </button>
+      </header>
+      <main className="container mx-auto p-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="md:col-span-2">
+            <OrderList orders={orders} onSelectOrder={handleSelectOrder} />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <h2 className="text-lg font-semibold mb-4">
-                {showChangedOrders ? "Scheduled Orders" : "Your Orders"}
-              </h2>
-              <OrderList
-                orders={filteredOrders}
-                onSelectOrder={setSelectedOrder}
-              />
-            </div>
+          <div>
             {selectedOrder && (
-              <div className="bg-white p-6 rounded-lg shadow-md">
-                <h2 className="text-lg font-semibold mb-4">
-                  Schedule Delivery for Order #{selectedOrder.trackingId}
-                </h2>
-                <TimeSlotSelector
-                  slots={timeSlots}
-                  selectedSlot={selectedOrder.selectedTimeSlot}
-                  onSelectSlot={handleSelectTimeSlot}
-                />
-              </div>
+              <TimeSlotSelector
+                order={selectedOrder}
+                timeSlots={initialTimeSlots}
+                onTimeSlotSelected={handleTimeSlotSelected}
+              />
             )}
           </div>
         </div>
       </main>
+      <CreateOrderModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleCreateOrder}
+      />
     </div>
   );
 };

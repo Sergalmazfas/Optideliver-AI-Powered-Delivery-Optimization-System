@@ -1,10 +1,11 @@
 {
-  "name": "india-post-delivery-system",
+  "name": "optideliver-sender-interface",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "build": "vite build",
     "server": "ts-node-esm src/server/server.ts",
     "dev:all": "concurrently \"npm run dev\" \"npm run server\""
   },

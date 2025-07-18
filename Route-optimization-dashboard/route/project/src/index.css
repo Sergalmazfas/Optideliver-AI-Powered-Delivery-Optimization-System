@@ -3,193 +3,138 @@
 @tailwind utilities;
 
 :root {
-  --indiapost-red: #E4002B;
-  --indiapost-blue: #00004C;
-  --indiapost-yellow: #FFB81C;
-  --indiapost-orange: #FF6B00;
-  --govt-gray: #2B2B2B;
+  --app-primary: #4F46E5; /* A modern indigo */
+  --app-secondary: #10B981; /* A vibrant green */
+  --app-accent: #F59E0B; /* A warm amber */
+  --app-dark: #1F2937; /* A deep gray */
+  --app-light: #F9FAFB; /* A very light gray */
+  --app-danger: #EF4444; /* A clear red */
 }
 
+/* General app-wide styles */
 body {
-  @apply bg-gray-100 font-sans;
+  font-family: 'Inter', sans-serif;
+  background-color: var(--app-light);
+  color: var(--app-dark);
 }
 
-
-.india-post-header {
-  background: var(--indiapost-blue);
-  border-bottom: 4px solid var(--indiapost-red);
+.app-header {
+  background: var(--app-dark);
+  border-bottom: 4px solid var(--app-primary);
 }
 
-.india-post-card {
-  @apply bg-white rounded-none border-l-4 shadow-md;
-  border-left-color: var(--indiapost-red);
+.app-card {
+  background: white;
+  border-left: 4px solid var(--app-primary);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
-
-.india-post-button {
-  @apply px-4 py-2 text-white font-medium transition-colors;
-  background-color: var(--indiapost-red);
-}
-
-.india-post-button:hover {
-  background-color: #C0001F;
-}
-
-
-.number-marker {
-  width: 30px;
-  height: 30px;
-  background-color: var(--indiapost-red);
+.app-button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--app-primary);
   color: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 16px;
-  border: 2px solid white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 0.375rem;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s;
 }
 
-
-.delivery-popup .leaflet-popup-content-wrapper {
-  border-radius: 0;
-  border-left: 4px solid var(--indiapost-red);
+.app-button:hover {
+  background-color: #4338CA; /* A slightly darker indigo */
 }
 
-.delivery-popup .leaflet-popup-content {
-  margin: 8px 12px;
-  min-width: 200px;
+.app-button-secondary {
+  background-color: var(--app-secondary);
 }
 
-
-.delivery-item {
-  @apply border-l-4 p-4 mb-2 bg-white shadow-sm;
-  border-left-color: var(--indiapost-red);
+.app-button-secondary:hover {
+  background-color: #059669; /* A slightly darker green */
 }
 
-.delivery-item.completed {
-  border-left-color: #28A745;
+.app-tag {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
 }
 
-
-.status-badge {
-  @apply px-3 py-1 text-sm rounded-none font-medium;
+.tag-success {
+  background-color: #D1FAE5;
+  color: #065F46;
 }
 
-.status-badge.pending {
-  background-color: var(--indiapost-yellow);
-  color: var(--govt-gray);
+.tag-warning {
+  background-color: #FEF3C7;
+  color: #92400E;
 }
 
-.status-badge.completed {
-  background-color: #28A745;
-  color: white;
+.tag-danger {
+  background-color: #FEE2E2;
+  color: #991B1B;
 }
 
-.route-info-card {
-  @apply p-6 bg-white shadow-md;
-  border-top: 4px solid var(--indiapost-blue);
-}
-
-.route-info-heading {
-  @apply text-xl font-bold mb-4;
-  color: var(--indiapost-blue);
-}
-
-
-.india-post-table {
-  @apply w-full border-collapse;
-}
-
-.india-post-table th {
-  @apply px-4 py-2 text-left;
-  background-color: var(--indiapost-blue);
-  color: white;
-}
-
-.india-post-table td {
-  @apply px-4 py-2 border-b border-gray-200;
-}
-
-
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--indiapost-red);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #C0001F;
-}
-/* Form Elements */
-.india-post-input {
-  @apply border-2 rounded-none px-3 py-2 w-full;
-  border-color: var(--indiapost-blue);
-}
-.back{
-  background-color: rgb(243, 226, 193);
-}
-
-.head{
-  background-color: rgb(218, 75, 27);
+/* Table styles */
+.app-table {
   width: 100%;
-  padding: 10px;
-  color: white
+  border-collapse: collapse;
 }
 
-
-/* Header Styles */
-
-.india-post-header {
-  background-color: #00004C;
-  color: #fff;
-  padding: 1rem;
-  text-align: center;
-  border-bottom: 4px solid #E4002B;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.app-table th,
+.app-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #E5E7EB;
 }
 
-.india-post-header .logo {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  margin-right: 1rem;
+.app-table th {
+  background-color: var(--app-light);
+  font-weight: 600;
+  color: var(--app-dark);
 }
 
-.india-post-header .logo img {
-  width: 50px;
-  height: 50px;
-  margin: 0 auto;
+.app-table tbody tr:hover {
+  background-color: #F3F4F6;
 }
 
-.india-post-header .heading {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
+/* Form styles */
+.app-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #D1D5DB;
+  border-radius: 0.375rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-/* Add the India Post logo beside the "Delivery Tracking" heading */
+.app-input:focus {
+  outline: none;
+  border-color: var(--app-primary);
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+}
 
-.india-post-header .heading {
+/* Remove India Post specific styles */
+.app-header .logo {
   display: flex;
   align-items: center;
 }
 
-.india-post-header .heading .logo {
+.app-header .logo img {
+  height: 40px;
+  width: auto;
   margin-right: 1rem;
 }
 
-.india-post-header .heading .text {
-  font-size: 2rem;
+.app-header .heading {
+  display: flex;
+  align-items: center;
+}
+
+.app-header .heading .logo {
+  margin-right: 1rem;
+}
+
+.app-header .heading .text {
+  font-size: 1.5rem;
   font-weight: bold;
-  margin-bottom: 0.5rem;
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Point } from '../types/Point';
 import type { DeliveryStatus } from '../types/DeliveryStatus';
-import { CheckCircle, Circle, Package } from 'lucide-react';
+import { CheckCircle, Circle, Package, Truck } from 'lucide-react';
 
 interface DeliveryListProps {
   points: Point[];
@@ -59,6 +59,12 @@ export function DeliveryList({ points, deliveryStatus, onMarkCompleted, onReset 
                 <span className="text-sm text-gray-600">
                   ({point.lat}, {point.lng})
                 </span>
+                {point.specialNeeds && (
+                  <div className="flex items-center gap-1 text-red-600 text-xs mt-1">
+                    <Truck size={14} />
+                    <span>{point.specialNeeds}</span>
+                  </div>
+                )}
               </div>
 
               <button

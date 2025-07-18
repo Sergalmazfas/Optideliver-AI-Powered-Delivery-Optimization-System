@@ -45,7 +45,7 @@ app.post('/api/orders/:id/confirm-slot', async (req, res) => {
     // Send SMS notification
     await sendSMSNotification(
       order.receiverDetails.phone,
-      `Your delivery for order ${order.trackingId} has been scheduled for ${timeSlot}. Thank you for using India Post!`
+      `Your delivery for order ${order.trackingId} has been scheduled for ${timeSlot}. Thank you for using OptiDeliver!`
     );
 
     res.json({ success: true, order });

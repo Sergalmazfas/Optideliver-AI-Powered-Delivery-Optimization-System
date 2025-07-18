@@ -14,6 +14,7 @@ export interface Order {
     address: string;
     phone: string;
     email: string;
+    specialNeeds?: string;
   };
   deliveryDate: string;
   selectedTimeSlot: string | null;

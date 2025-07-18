@@ -24,14 +24,131 @@
 
 /* Global styles */
 :root {
-  --india-post-red: #E52D27;
-  --india-post-orange: #FF6B35;
-  --india-post-dark: #2C3E50;
-  --india-post-light: #FFF5E6;
+  --app-primary: #4F46E5; /* A modern indigo */
+  --app-secondary: #10B981; /* A vibrant green */
+  --app-accent: #F59E0B; /* A warm amber */
+  --app-dark: #1F2937; /* A deep gray */
+  --app-light: #F9FAFB; /* A very light gray */
+  --app-danger: #EF4444; /* A clear red */
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif;
+  background-color: var(--app-light);
+  color: var(--app-dark);
+  margin: 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Header */
+.header {
+  background: linear-gradient(135deg, var(--app-primary), var(--app-secondary));
+  padding: 1rem 2rem;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+/* Main content */
+.dashboard {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.card-header {
+  margin: -1.5rem -1.5rem 1.5rem -1.5rem;
+  padding: 1rem 1.5rem;
+  background-color: var(--app-light);
+  border-bottom: 1px solid #E5E7EB;
+  border-radius: 8px 8px 0 0;
+}
+
+h2.card-title {
+  color: var(--app-primary);
+  margin: 0;
+}
+
+/* Order List */
+.order-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.order-item {
+  padding: 1rem;
+  border-bottom: 1px solid #E5E7EB;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.order-item:last-child {
+  border-bottom: none;
+}
+
+.order-item:hover {
+  background-color: #F3F4F6;
+}
+
+.order-item.selected {
+  background: linear-gradient(to right, var(--app-primary), var(--app-secondary));
+  color: white;
+  border-radius: 4px;
+}
+
+/* Time Slot Selector */
+.time-slot-selector {
+  display: flex;
+  flex-direction: column;
+}
+
+.time-slot-button {
+  background: white;
+  border: 1px solid #D1D5DB;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  border-radius: 4px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.time-slot-button:hover {
+  border-color: var(--app-primary);
+  background-color: #F3F4F6;
+}
+
+.time-slot-button.selected {
+  background-color: var(--app-secondary);
+  color: white;
+  border-color: var(--app-secondary);
+}
+
+.time-slot-button:disabled {
+  background-color: #E5E7EB;
+  color: #9CA3AF;
+  cursor: not-allowed;
 }
 
 /* Dashboard buttons container */

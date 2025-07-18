@@ -1,4 +1,22 @@
-# Optideliver - AI-Powered Delivery Optimization System
+# OptiDeliver - AI-Powered Delivery Optimization System
+
+This project is a comprehensive solution for optimizing last-mile delivery operations. It consists of three main components: a Sender Interface, a Postman (delivery driver) application, and a Route Optimization Dashboard. The system leverages AI to predict optimal delivery routes and time slots, improving efficiency and customer satisfaction.
+
+This project was originally created for the Smart India Hackathon and has been adapted for a US (Miami) context.
+
+## Table of Contents
+- [Features](#features)
+- [System Architecture](#system-architecture)
+- [Technologies Used](#technologies-used)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [API Endpoints](#api-endpoints)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
 ## Introduction
 
@@ -94,68 +112,138 @@ Located in [`Route-optimization-dashboard/route/project`](Route-optimization-das
 - Route optimization using custom utilities.
 - Integration with delivery tracking data.
 
-## Installation
+## Key Features
+
+- **Predictive Analytics for Delivery Times:** Utilizes historical data to forecast the optimal time slots for successful deliveries, reducing the rate of failed attempts.
+- **Dynamic Time Slot Selection:** Allows recipients to choose or modify their preferred delivery time slots via an interactive web interface.
+- **Real-Time SMS Notifications:** Keeps customers informed with instant alerts for scheduling confirmations and delivery updates.
+- **Optimized Routing for Postmen:** Provides delivery agents with the most efficient routes, considering traffic, weather, and delivery density.
+- **Centralized Dashboard for Senders:** Enables senders to monitor delivery statuses, manage orders, and view performance metrics.
+- **Scalable and Secure Backend:** Built with Node.js, Express, and MongoDB, ensuring robustness and data integrity.
+
+## System Architecture
+
+The system comprises three core components:
+
+1.  **Sender Interface (`/Sender-interface`)**: A web application for senders to create, manage, and track shipments. It features a dashboard for visualizing delivery analytics and order statuses.
+2.  **Postman App (`/Postman-app`)**: A mobile-friendly web app for delivery agents. It displays optimized routes, delivery schedules, and allows for status updates on the go.
+3.  **Route Optimization Dashboard (`/Route-optimization-dashboard`)**: A tool for logistics managers to oversee the entire delivery network, analyze route efficiency, and make data-driven decisions.
+
+## Technologies Used
+
+- **Frontend**: React, TypeScript, Vite, Tailwind CSS, Leaflet.js
+- **Backend**: Node.js, Express, MongoDB, Mongoose
+- **AI/ML**: Python, Pandas, Scikit-learn (for the prediction model in `prediction.ipynb`)
+- **Real-time Notifications**: Twilio API for SMS
+- **Deployment**: Docker, Google Cloud Run
+
+## Getting Started
 
 ### Prerequisites
 
-- **Node.js** (version 14 or higher)
-- **npm** or **yarn**
+- Node.js (v18 or later)
+- npm and npx
+- Python 3.x
+- Docker
+- Access to a MongoDB instance
+- Twilio account for SMS notifications
+- Google Maps API Key
 
-### Clone the Repository
+### Installation
 
-```bash
-git clone https://github.com/rishitsura/india-post-delivery-system.git
-```
+1.  **Clone the repository:**
+    ```sh
+    git clone https://github.com/your-username/Optideliver-AI-Powered-Delivery-Optimization-System.git
+    ```
+2.  **Navigate to the project directory:**
+    ```sh
+    cd Optideliver-AI-Powered-Delivery-Optimization-System
+    ```
+3.  **Install dependencies for each service:**
 
-## Installing Dependencies
-
-### Sender Interface
-```bash
-cd india-post-delivery-system/Sender-interface
-npm install
-```
-
-### Postman App
-```bash
-cd india-post-delivery-system/Postman-app/project
-npm install
-```
-
-### Route Optimization Dashboard
-```bash
-cd india-post-delivery-system/Route-optimization-dashboard/route/project
-npm run dev
-```
+    -   **Sender Interface**:
+        ```sh
+        cd Sender-interface
+        npm install
+        ```
+    -   **Postman App**:
+        ```sh
+        cd ../Postman-app/project
+        npm install
+        ```
+    -   **Route Optimization Dashboard**:
+        ```sh
+        cd ../../Route-optimization-dashboard/route/project
+        npm install
+        ```
 
 ## Usage
 
-- Access the Sender Interface at [http://localhost:3000](http://localhost:3000) to create and manage delivery orders.
-- Use the Postman App to view assigned deliveries and update their statuses.
-- Utilize the Route Optimization Dashboard to visualize and optimize delivery routes.
+Each component can be run locally for development. Ensure you have a `.env` file in the `Sender-interface` directory with the necessary environment variables (see [Configuration](#configuration)).
 
+-   **Start the backend server (from `/Sender-interface`):**
+    ```sh
+    npm run server
+    ```
+-   **Start the frontend development server (from `/Sender-interface`):**
+    ```sh
+    npm run dev
+    ```
 
-## Contributing
+Follow similar `npm run dev` commands for the other two frontend applications.
 
-We welcome contributions to improve the India Post Delivery System! Please follow these steps:
+## Docker
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+### Local Development using Docker Compose
 
-### Contribution Guidelines
+To run the entire system locally using Docker, ensure you have Docker and Docker Compose installed.
 
-- Follow the existing code style and conventions
-- Write clear commit messages
-- Update documentation as needed
-- Add tests for new features
-- Ensure all tests pass before submitting PR
+1.  **Create a `.env` file in the project root:**
+    ```
+    VITE_GOOGLE_MAPS_API_KEY=your_google_maps_api_key
+    ```
+2.  **Build and run the services:**
+    ```sh
+    docker-compose up --build
+    ```
 
-### Co-Owners
+The services will be available at:
+-   **Sender Interface**: `http://localhost:3000`
+-   **Postman App**: `http://localhost:3001`
+-   **Dashboard**: `http://localhost:3002`
 
-### [Shruthika Sunku](https://github.com/shruthika-s)
-### [Suhas Uppala](https://github.com/Suhas-Uppala)
-### [Sujay Nimmagadda](https://github.com/sujaynsv)
-### [Yaswanth Jonnala](https://github.com/yaswanthjonnala)
-### [Amit Dandu](https://github.com/amitexe)
+### Deployment to Google Cloud Run
+
+Each service can be deployed as a separate service in Google Cloud Run.
+
+1.  **Authenticate with Google Cloud:**
+    ```sh
+    gcloud auth login
+    gcloud config set project YOUR_PROJECT_ID
+    ```
+2.  **Enable necessary APIs:**
+    - Cloud Build API
+    - Cloud Run API
+    - Artifact Registry API
+
+3.  **Build and Push the Docker image (example for Sender Interface):**
+    ```sh
+    gcloud builds submit --tag gcr.io/YOUR_PROJECT_ID/sender-interface ./Sender-interface
+    ```
+    Repeat this for the `postman-app` and `route-optimization-dashboard` directories.
+
+4.  **Deploy the service (example for Sender Interface):**
+    ```sh
+    gcloud run deploy sender-interface \
+      --image gcr.io/YOUR_PROJECT_ID/sender-interface \
+      --platform managed \
+      --region us-central1 \
+      --allow-unauthenticated \
+      --set-env-vars VITE_GOOGLE_MAPS_API_KEY=your_google_maps_api_key,MONGODB_URI=your_mongo_uri
+    ```
+    Repeat this for the other services, adjusting the service name and environment variables as needed.
+
+## Configuration
+
+The `Sender-interface` backend requires the following environment variables in a `.env` file:
+```

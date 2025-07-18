@@ -1,0 +1,34 @@
+version: '3.8'
+services:
+  sender-interface:
+    build:
+      context: ./Sender-interface
+    ports:
+      - "3000:5000"
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/optideliver
+      - VITE_GOOGLE_MAPS_API_KEY=${VITE_GOOGLE_MAPS_API_KEY}
+
+  postman-app:
+    build:
+      context: ./Postman-app/project
+    ports:
+      - "3001:80"
+
+  dashboard:
+    build:
+      context: ./Route-optimization-dashboard/route/project
+    ports:
+      - "3002:80"
+    environment:
+      - VITE_GOOGLE_MAPS_API_KEY=${VITE_GOOGLE_MAPS_API_KEY}
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data: 

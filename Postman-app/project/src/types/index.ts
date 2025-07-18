@@ -5,11 +5,12 @@ export interface Delivery {
   address: string;
   timeSlot: string;
   status: 'pending' | 'in_progress' | 'delivered' | 'attempted';
-  specialInstructions?: string;
   coordinates: {
     lat: number;
     lng: number;
   };
+  specialInstructions?: string;
+  specialNeeds?: string;
 }
 
 export interface DeliveryMetrics {
