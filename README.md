@@ -233,8 +233,8 @@ This project is configured for automated deployments to Google Cloud Run using a
         - **Name:** A descriptive name (e.g., "deploy-main").
         - **Event:** Push to a branch.
         - **Branch:** `main`.
-        - **Configuration:** Cloud Build configuration file (`cloudbuild.yaml`).
-        - **Location:** `cloudbuild.yaml` (at the root of the repository).
+        - **Configuration:** Cloud Build configuration file (`.cloudbuild.yaml`).
+        - **Location:** `.cloudbuild.yaml` (at the root of the repository).
 
 2.  **Create Secrets in Secret Manager:**
     Before deploying, you must create secrets in Secret Manager for your sensitive data. The names of the secrets should match the names used in the `cloudbuild.yaml` file.
